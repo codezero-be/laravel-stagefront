@@ -1,0 +1,46 @@
+{
+    "name": "codezero/laravel-stagefront",
+    "description": "Quickly add some password protection to a staging site.",
+    "keywords": [
+        "laravel",
+        "staging",
+        "protect",
+        "password"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Vermeyen",
+            "email": "ivan@codezero.be"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "0.9.*",
+        "orchestra/testbench": "~3.5.0",
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeZero\\StageFront\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CodeZero\\StageFront\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CodeZero\\StageFront\\StageFrontServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "sort-packages": true,
+    "optimize-autoloader": true
+}
