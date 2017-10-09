@@ -1,10 +1,9 @@
 <?php
 
-namespace CodeZero\StageFront\Tests\Feature;
+namespace CodeZero\StageFront\Tests;
 
 use CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled;
 use CodeZero\StageFront\Tests\Stubs\User;
-use CodeZero\StageFront\Tests\TestCase;
 use Illuminate\Contracts\Http\Kernel;
 use Route;
 
@@ -243,7 +242,7 @@ class StageFrontTest extends TestCase
     {
         config()->set('stagefront.enabled', true);
 
-        include __DIR__.'/../../routes/routes.php';
+        include __DIR__.'/../routes/routes.php';
 
         app(Kernel::class)->prependMiddleware(
             RedirectIfStageFrontIsEnabled::class
