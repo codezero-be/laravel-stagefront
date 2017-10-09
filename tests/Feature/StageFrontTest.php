@@ -10,6 +10,13 @@ use Route;
 
 class StageFrontTest extends TestCase
 {
+    /**
+     * StageFront URL
+     *
+     * @var string
+     */
+    protected $url;
+
     public function setUp()
     {
         parent::setUp();
