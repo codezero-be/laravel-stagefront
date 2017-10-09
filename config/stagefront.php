@@ -83,9 +83,9 @@ return [
      * Since StageFront uses the session, we definitely require
      * the web middleware group. But you can change it if needed.
      *
-     * Default: 'web'
+     * Default: ['web']
      */
-    'middleware' => env('STAGEFRONT_MIDDLEWARE', 'web'),
+    'middleware' => ['web'],
 
     /**
      * The following URLs will be ignored by StageFront.
