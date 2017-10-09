@@ -160,7 +160,7 @@ class StageFrontTest extends TestCase
         ]);
 
         config()->set('stagefront.database', true);
-        config()->set('stagefront.database_whitelist', 'john@doe.io,jane@doe.io');
+        config()->set('stagefront.database_whitelist', 'john@doe.io , jane@doe.io');
         config()->set('stagefront.database_table', 'users');
         config()->set('stagefront.database_login_field', 'email');
         config()->set('stagefront.database_password_field', 'password');
