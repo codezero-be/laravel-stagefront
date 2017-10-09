@@ -26,9 +26,7 @@ class StageFrontTest extends TestCase
         // It is disabled by default so nothing is loaded by default.
         $this->url = config('stagefront.url');
 
-        Route::get('/page', function () {
-            return 'Some Page';
-        })->middleware(config('stagefront.middleware'));
+        $this->registerRoute('/page', 'Some Page');
     }
 
     /** @test */
@@ -176,6 +174,20 @@ class StageFrontTest extends TestCase
         ])->assertRedirect($this->url)->assertSessionHasErrors('password');
     }
 
+    /** @test */
+    public function urls_can_be_ignored_so_access_is_not_denied_by_stagefront()
+    {
+        $this->registerRoute('/public', 'Public');
+        $this->registerRoute('/public/route', 'Route');
+
+        config()->set('stagefront.ignore_urls', ['/public/*']);
+
+        $this->enableStageFront();
+
+        $this->get('/public')->assertRedirect($this->url);
+        $this->get('/public/route')->assertStatus(200)->assertSee('Route');
+    }
+
     /**
      * Tell Laravel we navigated to this intended URL and
      * got redirected to the login page so that
@@ -226,5 +238,18 @@ class StageFrontTest extends TestCase
         app(Kernel::class)->prependMiddleware(
             RedirectIfStageFrontIsEnabled::class
         );
+    }
+
+    /**
+     * Register a test route.
+     *
+     * @param string $url
+     * @param string $text
+     */
+    protected function registerRoute($url, $text)
+    {
+        Route::get($url, function () use ($text) {
+            return $text;
+        })->middleware(config('stagefront.middleware'));
     }
 }

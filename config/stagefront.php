@@ -87,4 +87,13 @@ return [
      */
     'middleware' => env('STAGEFRONT_MIDDLEWARE', 'web'),
 
+    /**
+     * The following URLs will be ignored by StageFront.
+     * Access to these URLs will never be blocked.
+     * You can use wildcards:
+     * '/route/*' (this does not include '/route')
+     *
+     * Default: []
+     */
+    'ignore_urls' => [],
 ];
