@@ -10,7 +10,7 @@ class StageFrontController extends Controller
     /**
      * Show the StageFront login screen.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function create()
     {
