@@ -46,6 +46,15 @@ return [
     'database' => env('STAGEFRONT_DATABASE', false),
 
     /**
+     * When using the database, you can limit access to specific users.
+     * Enter a string of comma separated logins, or null to allow all users.
+     * For example: 'john@doe.io,jane@doe.io'
+     *
+     * Default: null
+     */
+    'database_whitelist' => env('STAGEFRONT_DATABASE_WHITELIST', null),
+
+    /**
      * When using the database, you can configure the table and fields to use.
      */
     'database_table' => env('STAGEFRONT_DATABASE_TABLE', 'users'),

@@ -115,6 +115,50 @@ class StageFrontTest extends TestCase
         $response->assertRedirect('/page');
     }
 
+    /** @test */
+    public function you_can_limit_which_database_users_have_access()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testing']);
+
+        User::create([
+            'name' => 'John Doe',
+            'email' => 'john@doe.io',
+            'password' => bcrypt('str0ng p4ssw0rd'),
+        ]);
+        User::create([
+            'name' => 'Jane Doe',
+            'email' => 'jane@doe.io',
+            'password' => bcrypt('str0ng p4ssw0rd'),
+        ]);
+        User::create([
+            'name' => 'Mr. Smith',
+            'email' => 'mr@smith.io',
+            'password' => bcrypt('str0ng p4ssw0rd'),
+        ]);
+
+        config()->set('stagefront.enabled', true);
+        config()->set('stagefront.database', true);
+        config()->set('stagefront.database_whitelist', 'john@doe.io,jane@doe.io');
+        config()->set('stagefront.database_table', 'users');
+        config()->set('stagefront.database_login_field', 'email');
+        config()->set('stagefront.database_password_field', 'password');
+
+        $this->setIntendedUrl('/page')->submitForm([
+            'login' => 'john@doe.io',
+            'password' => 'str0ng p4ssw0rd',
+        ])->assertRedirect('/page');
+
+        $this->setIntendedUrl('/page')->submitForm([
+            'login' => 'jane@doe.io',
+            'password' => 'str0ng p4ssw0rd',
+        ])->assertRedirect('/page');
+
+        $this->setIntendedUrl('/page')->submitForm([
+            'login' => 'mr@smith.io',
+            'password' => 'str0ng p4ssw0rd',
+        ])->assertRedirect($this->url)->assertSessionHasErrors('password');
+    }
+
     /**
      * Tell Laravel we navigated to this intended URL and
      * got redirected to the login page so that

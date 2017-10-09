@@ -46,9 +46,40 @@ class DatabaseLogin implements Check
      */
     protected function findUser($login)
     {
+        if ( ! $this->loginIsAllowed($login)) {
+            return null;
+        }
+
         $table = config('stagefront.database_table');
         $loginField = config('stagefront.database_login_field');
 
         return DB::table($table)->where($loginField, '=', $login)->first();
+    }
+
+    /**
+     * Check if the given login is allowed.
+     *
+     * @param string $login
+     *
+     * @return bool
+     */
+    protected function loginIsAllowed($login)
+    {
+        $logins = $this->getWhitelist();
+
+        return count($logins) === 0 || in_array($login, $logins);
+    }
+
+    /**
+     * Get the logins that are whitelisted.
+     *
+     * @return array
+     */
+    protected function getWhitelist()
+    {
+        $whitelist = config('stagefront.database_whitelist', '');
+        $logins = explode(',', $whitelist) ?: [];
+
+        return array_filter($logins);
     }
 }
