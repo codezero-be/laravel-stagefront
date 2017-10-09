@@ -85,6 +85,16 @@ class StageFrontTest extends TestCase
     }
 
     /** @test */
+    public function it_redirects_home_if_you_are_already_logged_in()
+    {
+        $this->enableStageFront();
+
+        session()->put('stagefront.unlocked', true);
+
+        $this->get($this->url)->assertRedirect('/');
+    }
+
+    /** @test */
     public function the_password_may_be_stored_encrypted()
     {
         config()->set('stagefront.login', 'tester');

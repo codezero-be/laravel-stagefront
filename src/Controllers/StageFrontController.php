@@ -14,6 +14,10 @@ class StageFrontController extends Controller
      */
     public function create()
     {
+        if (session('stagefront.unlocked') === true) {
+            return redirect('/');
+        }
+
         $liveSite = config('stagefront.live_site');
 
         if ($liveSite) {
