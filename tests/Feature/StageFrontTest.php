@@ -2,6 +2,7 @@
 
 namespace CodeZero\StageFront\Tests\Feature;
 
+use CodeZero\StageFront\Tests\Stubs\User;
 use CodeZero\StageFront\Tests\TestCase;
 use Route;
 
@@ -82,6 +83,33 @@ class StageFrontTest extends TestCase
         $response = $this->submitForm([
             'login' => 'tester',
             'password' => 'p4ssw0rd',
+        ]);
+
+        $response->assertRedirect('/page');
+    }
+
+    /** @test */
+    public function the_users_in_the_database_can_be_used_for_logging_in()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testing']);
+
+        User::create([
+            'name' => 'John Doe',
+            'email' => 'john@doe.io',
+            'password' => bcrypt('str0ng p4ssw0rd'),
+        ]);
+
+        config()->set('stagefront.enabled', true);
+        config()->set('stagefront.database', true);
+        config()->set('stagefront.database_table', 'users');
+        config()->set('stagefront.database_login_field', 'email');
+        config()->set('stagefront.database_password_field', 'password');
+
+        $this->setIntendedUrl('/page');
+
+        $response = $this->submitForm([
+            'login' => 'john@doe.io',
+            'password' => 'str0ng p4ssw0rd',
         ]);
 
         $response->assertRedirect('/page');

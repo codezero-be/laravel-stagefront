@@ -2,6 +2,7 @@
 
 namespace CodeZero\StageFront;
 
+use CodeZero\StageFront\Checks\DatabaseLogin;
 use CodeZero\StageFront\Checks\EncryptedLogin;
 use CodeZero\StageFront\Checks\PlainTextLogin;
 
@@ -19,6 +20,7 @@ class Checker
     public static function checkCredentials($login, $password)
     {
         $checkers = [
+            DatabaseLogin::class => config('stagefront.database') === true,
             EncryptedLogin::class => config('stagefront.encrypted') === true,
             PlainTextLogin::class => true, //=> Default
         ];

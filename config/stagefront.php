@@ -36,6 +36,23 @@ return [
     'encrypted' => env('STAGEFRONT_ENCRYPTED', false),
 
     /**
+     * If you have existing users in the database, you can use these settings
+     * to log them in via the StageFront login page.
+     * This will not log them in into your app/website.
+     * When using the database, the other login options will be irrelevant.
+     *
+     * Default: false
+     */
+    'database' => env('STAGEFRONT_DATABASE', false),
+
+    /**
+     * When using the database, you can configure the table and fields to use.
+     */
+    'database_table' => env('STAGEFRONT_DATABASE_TABLE', 'users'),
+    'database_login_field' => env('STAGEFRONT_DATABASE_LOGIN_FIELD', 'email'),
+    'database_password_field' => env('STAGEFRONT_DATABASE_PASSWORD_FIELD', 'password'),
+
+    /**
      * The URL to use for the StageFront login route.
      * This URL will be used for a GET and POST request.
      *
