@@ -1,10 +1,10 @@
 <?php
 
-namespace CodeZero\StageFront\Checks;
+namespace CodeZero\StageFront\Authenticators;
 
 use Hash;
 
-class EncryptedLogin implements Check
+class EncryptedAuthenticator implements Authenticator
 {
     /**
      * Check if the given credentials are valid.

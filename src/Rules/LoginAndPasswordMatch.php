@@ -2,7 +2,7 @@
 
 namespace CodeZero\StageFront\Rules;
 
-use CodeZero\StageFront\Checker;
+use CodeZero\StageFront\Authenticator;
 use Illuminate\Contracts\Validation\Rule;
 
 class LoginAndPasswordMatch implements Rule
@@ -34,7 +34,7 @@ class LoginAndPasswordMatch implements Rule
      */
     public function passes($passwordField, $password)
     {
-        return Checker::checkCredentials($this->login, $password);
+        return Authenticator::checkCredentials($this->login, $password);
     }
 
     /**

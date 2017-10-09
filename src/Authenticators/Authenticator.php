@@ -1,8 +1,8 @@
 <?php
 
-namespace CodeZero\StageFront\Checks;
+namespace CodeZero\StageFront\Authenticators;
 
-interface Check
+interface Authenticator
 {
     /**
      * Check if the given credentials are valid.

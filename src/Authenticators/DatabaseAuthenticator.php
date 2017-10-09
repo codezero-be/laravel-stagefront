@@ -1,11 +1,11 @@
 <?php
 
-namespace CodeZero\StageFront\Checks;
+namespace CodeZero\StageFront\Authenticators;
 
 use DB;
 use Hash;
 
-class DatabaseLogin implements Check
+class DatabaseAuthenticator implements Authenticator
 {
     /**
      * Check if the given credentials are valid.

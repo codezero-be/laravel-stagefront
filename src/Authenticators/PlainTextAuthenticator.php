@@ -1,8 +1,8 @@
 <?php
 
-namespace CodeZero\StageFront\Checks;
+namespace CodeZero\StageFront\Authenticators;
 
-class PlainTextLogin implements Check
+class PlainTextAuthenticator implements Authenticator
 {
     /**
      * Check if the given credentials are valid.
