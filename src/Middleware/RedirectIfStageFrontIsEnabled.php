@@ -19,8 +19,13 @@ class RedirectIfStageFrontIsEnabled
         $disabled = ! config('stagefront.enabled', false);
         $unlocked = session('stagefront.unlocked', false);
         $stageFrontUrl = trim(config('stagefront.url'), '/');
+        $requestIsStageFront = $request->is($stageFrontUrl);
 
-        if ($unlocked || $disabled || $request->is($stageFrontUrl)) {
+        if ($disabled && $requestIsStageFront) {
+            abort(404);
+        }
+
+        if ($unlocked || $disabled || $requestIsStageFront) {
             return $next($request);
         }
 

@@ -12,6 +12,9 @@ class StageFrontTest extends TestCase
     {
         parent::setUp();
 
+        // Note that changing the URL or middleware config in the tests has no effect.
+        // These settings are used in the routes file, which has already been
+        // loaded before the tests run.
         $this->url = config('stagefront.url');
 
         Route::get('/page', function () {
@@ -33,6 +36,14 @@ class StageFrontTest extends TestCase
         config()->set('stagefront.enabled', false);
 
         $this->get('/page')->assertStatus(200)->assertSee('Some Page');
+    }
+
+    /** @test */
+    public function the_login_route_does_not_exist_when_stagefront_is_disabled()
+    {
+        config()->set('stagefront.enabled', false);
+
+        $this->get($this->url)->assertStatus(404);
     }
 
     /** @test */
