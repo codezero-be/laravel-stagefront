@@ -2,6 +2,8 @@
 
 namespace CodeZero\StageFront;
 
+use CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 
 class StageFrontServiceProvider extends ServiceProvider
@@ -23,6 +25,7 @@ class StageFrontServiceProvider extends ServiceProvider
         $this->loadRoutes();
         $this->loadViews();
         $this->loadTranslations();
+        $this->loadMiddleware();
         $this->registerPublishableFiles();
     }
 
@@ -64,6 +67,20 @@ class StageFrontServiceProvider extends ServiceProvider
     protected function loadTranslations()
     {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', $this->name);
+    }
+
+    /**
+     * Load package middleware.
+     *
+     * @return void
+     */
+    protected function loadMiddleware()
+    {
+        if (config('stagefront.enabled') === true) {
+            app(Kernel::class)->prependMiddleware(
+                RedirectIfStageFrontIsEnabled::class
+            );
+        }
     }
 
     /**

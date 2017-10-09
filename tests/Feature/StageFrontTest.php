@@ -2,8 +2,10 @@
 
 namespace CodeZero\StageFront\Tests\Feature;
 
+use CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled;
 use CodeZero\StageFront\Tests\Stubs\User;
 use CodeZero\StageFront\Tests\TestCase;
+use Illuminate\Contracts\Http\Kernel;
 use Route;
 
 class StageFrontTest extends TestCase
@@ -12,9 +14,9 @@ class StageFrontTest extends TestCase
     {
         parent::setUp();
 
-        // Note that changing the URL or middleware config in the tests has no effect.
-        // These settings are used in the routes file, which has already been
-        // loaded before the tests run.
+        // Note that changing the URL or middleware config in the tests
+        // has no effect until you call $this->enableStageFront().
+        // It is disabled by default so nothing is loaded by default.
         $this->url = config('stagefront.url');
 
         Route::get('/page', function () {
@@ -45,11 +47,10 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_redirects_to_the_intended_url_when_you_provide_valid_credentials()
     {
-        $this->enableStageFront();
-
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', 'p4ssw0rd');
 
+        $this->enableStageFront();
         $this->setIntendedUrl('/page');
 
         $response = $this->submitForm([
@@ -63,11 +64,10 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_does_not_allow_access_when_you_provide_invalid_credentials()
     {
-        $this->enableStageFront();
-
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', 'p4ssw0rd');
 
+        $this->enableStageFront();
         $this->setIntendedUrl('/page');
 
         $response = $this->submitForm([
@@ -82,12 +82,11 @@ class StageFrontTest extends TestCase
     /** @test */
     public function the_password_may_be_stored_encrypted()
     {
-        $this->enableStageFront();
-
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', bcrypt('p4ssw0rd'));
         config()->set('stagefront.encrypted', true);
 
+        $this->enableStageFront();
         $this->setIntendedUrl('/page');
 
         $response = $this->submitForm([
@@ -109,13 +108,12 @@ class StageFrontTest extends TestCase
             'password' => bcrypt('str0ng p4ssw0rd'),
         ]);
 
-        $this->enableStageFront();
-
         config()->set('stagefront.database', true);
         config()->set('stagefront.database_table', 'users');
         config()->set('stagefront.database_login_field', 'email');
         config()->set('stagefront.database_password_field', 'password');
 
+        $this->enableStageFront();
         $this->setIntendedUrl('/page');
 
         $response = $this->submitForm([
@@ -147,13 +145,13 @@ class StageFrontTest extends TestCase
             'password' => bcrypt('str0ng p4ssw0rd'),
         ]);
 
-        $this->enableStageFront();
-
         config()->set('stagefront.database', true);
         config()->set('stagefront.database_whitelist', 'john@doe.io,jane@doe.io');
         config()->set('stagefront.database_table', 'users');
         config()->set('stagefront.database_login_field', 'email');
         config()->set('stagefront.database_password_field', 'password');
+
+        $this->enableStageFront();
 
         $this->setIntendedUrl('/page')->submitForm([
             'login' => 'john@doe.io',
@@ -208,7 +206,7 @@ class StageFrontTest extends TestCase
 
     /**
      * Enable StageFront.
-     * Routes haven't been loaded, so we should do this now.
+     * Routes and middleware haven't been loaded, so we should do this now.
      *
      * @return void
      */
@@ -217,5 +215,9 @@ class StageFrontTest extends TestCase
         config()->set('stagefront.enabled', true);
 
         include __DIR__.'/../../routes/routes.php';
+
+        app(Kernel::class)->prependMiddleware(
+            RedirectIfStageFrontIsEnabled::class
+        );
     }
 }
