@@ -2,11 +2,15 @@
 
 use CodeZero\StageFront\Controllers\StageFrontController;
 
-Route::group(['middleware' => config('stagefront.middleware')], function () {
+if (config('stagefront.enabled') === true) {
 
-    $url = config('stagefront.url');
+    Route::group(['middleware' => config('stagefront.middleware')], function () {
 
-    Route::get($url, StageFrontController::class.'@create');
-    Route::post($url, StageFrontController::class.'@store');
+        $url = config('stagefront.url');
 
-});
+        Route::get($url, StageFrontController::class.'@create');
+        Route::post($url, StageFrontController::class.'@store');
+
+    });
+
+}
