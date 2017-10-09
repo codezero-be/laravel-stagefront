@@ -23,6 +23,8 @@ class StageFrontController extends Controller
             ];
         }
 
+        $this->disableLaravelDebugbar();
+
         return view('stagefront::login', compact('liveSite'));
     }
 
@@ -44,5 +46,17 @@ class StageFrontController extends Controller
         session()->put('stagefront.unlocked', true);
 
         return redirect()->intended('/');
+    }
+
+    /**
+     * Disable Laravel Debugbar if it is loaded.
+     *
+     * @return void
+     */
+    protected function disableLaravelDebugbar()
+    {
+        if (class_exists('\Debugbar')) {
+            \Debugbar::disable();
+        }
     }
 }
