@@ -14,7 +14,16 @@ class StageFrontController extends Controller
      */
     public function create()
     {
-        return view('stagefront::login');
+        $liveSite = config('stagefront.live_site');
+
+        if ($liveSite) {
+            $liveSite = [
+                'url' => $liveSite,
+                'host' => parse_url($liveSite, PHP_URL_HOST),
+            ];
+        }
+
+        return view('stagefront::login', compact('liveSite'));
     }
 
     /**

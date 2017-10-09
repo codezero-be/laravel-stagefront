@@ -3,6 +3,15 @@
 return [
 
     /**
+     * Set an optional URL of the live version of the website.
+     * This will be displayed on the login screen if set.
+     * For example: 'https://www.site.com'
+     *
+     * Default: null
+     */
+    'live_site' => env('STAGEFRONT_LIVE_SITE', null),
+
+    /**
      * Enable StageFront to prevent anyone from accessing the website
      * without first entering a login and password.
      *
