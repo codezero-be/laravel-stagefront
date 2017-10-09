@@ -25,7 +25,7 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_redirects_to_a_login_screen_when_stagefront_is_enabled()
     {
-        config()->set('stagefront.enabled', true);
+        $this->enableStageFront();
 
         $this->get('/page')->assertRedirect($this->url);
     }
@@ -33,23 +33,20 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_does_not_redirect_to_a_login_screen_when_stagefront_is_disabled()
     {
-        config()->set('stagefront.enabled', false);
-
         $this->get('/page')->assertStatus(200)->assertSee('Some Page');
     }
 
     /** @test */
     public function the_login_route_does_not_exist_when_stagefront_is_disabled()
     {
-        config()->set('stagefront.enabled', false);
-
         $this->get($this->url)->assertStatus(404);
     }
 
     /** @test */
     public function it_redirects_to_the_intended_url_when_you_provide_valid_credentials()
     {
-        config()->set('stagefront.enabled', true);
+        $this->enableStageFront();
+
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', 'p4ssw0rd');
 
@@ -66,7 +63,8 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_does_not_allow_access_when_you_provide_invalid_credentials()
     {
-        config()->set('stagefront.enabled', true);
+        $this->enableStageFront();
+
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', 'p4ssw0rd');
 
@@ -84,7 +82,8 @@ class StageFrontTest extends TestCase
     /** @test */
     public function the_password_may_be_stored_encrypted()
     {
-        config()->set('stagefront.enabled', true);
+        $this->enableStageFront();
+
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', bcrypt('p4ssw0rd'));
         config()->set('stagefront.encrypted', true);
@@ -110,7 +109,8 @@ class StageFrontTest extends TestCase
             'password' => bcrypt('str0ng p4ssw0rd'),
         ]);
 
-        config()->set('stagefront.enabled', true);
+        $this->enableStageFront();
+
         config()->set('stagefront.database', true);
         config()->set('stagefront.database_table', 'users');
         config()->set('stagefront.database_login_field', 'email');
@@ -147,7 +147,8 @@ class StageFrontTest extends TestCase
             'password' => bcrypt('str0ng p4ssw0rd'),
         ]);
 
-        config()->set('stagefront.enabled', true);
+        $this->enableStageFront();
+
         config()->set('stagefront.database', true);
         config()->set('stagefront.database_whitelist', 'john@doe.io,jane@doe.io');
         config()->set('stagefront.database_table', 'users');
@@ -203,5 +204,18 @@ class StageFrontTest extends TestCase
         ]);
 
         return $response;
+    }
+
+    /**
+     * Enable StageFront.
+     * Routes haven't been loaded, so we should do this now.
+     *
+     * @return void
+     */
+    protected function enableStageFront()
+    {
+        config()->set('stagefront.enabled', true);
+
+        include __DIR__.'/../../routes/routes.php';
     }
 }
