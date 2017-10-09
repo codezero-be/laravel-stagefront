@@ -77,12 +77,15 @@ class DatabaseAuthenticator implements Authenticator
      */
     protected function getWhitelist()
     {
-        $whitelist = config('stagefront.database_whitelist', '');
-        $logins = explode(',', $whitelist) ?: [];
+        $whitelist = config('stagefront.database_whitelist', []);
+
+        if ( ! is_array($whitelist)) {
+            $whitelist = explode(',', $whitelist) ?: [];
+        }
 
         $logins = array_map(function ($login) {
             return trim($login);
-        }, $logins);
+        }, $whitelist);
 
         return array_filter($logins);
     }

@@ -56,7 +56,7 @@ return [
 
     /**
      * When using the database, you can limit access to specific users.
-     * Enter a string of comma separated logins, or null to allow all users.
+     * Enter aan array or string of comma separated logins, or null to allow all users.
      * For example: 'john@doe.io,jane@doe.io'
      *
      * Default: null
@@ -96,4 +96,5 @@ return [
      * Default: []
      */
     'ignore_urls' => [],
+
 ];
