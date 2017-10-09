@@ -1,5 +1,12 @@
 # Laravel StageFront
 
+[![GitHub release](https://img.shields.io/github/release/codezero-be/laravel-stagefront.svg)]()
+[![License](https://img.shields.io/packagist/l/codezero/laravel-stagefront.svg)]()
+[![Build Status](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/badges/build.png?b=master)](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/codezero/laravel-stagefront.svg)](https://packagist.org/packages/codezero/laravel-stagefront)
+
 #### Quickly add some password protection to a staging site.
 
 ## Requirements
