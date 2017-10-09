@@ -34,6 +34,8 @@ Laravel will automatically register the `ServiceProvider`.
 
 Set some options in your `.env` file or publish the [configuration file](#publish-configuration-file).
 
+See an [example .env file](.env.example).
+
 Enable StageFront and choose a login and password:
 
 | Option                 | Type     | Default      |
@@ -52,13 +54,13 @@ You can generate this using Laravel's `bcrypt('your password')` function.
 
 If you have existing users in the database and want to use those credentials, you can set `STAGEFRONT_DATABASE` to `true`. The above settings will then be ignored.
 
-| Option                               | Type            | Default    |
-| ------------------------------------ | --------------- | ---------- |
-| `STAGEFRONT_DATABASE`                | `bool`          | `false`    |
-| `STAGEFRONT_DATABASE_WHITELIST`      | `string`|`null` | `null`     |
-| `STAGEFRONT_DATABASE_TABLE`          | `string`        | `users`    |
-| `STAGEFRONT_DATABASE_LOGIN_FIELD`    | `string`        | `email`    |
-| `STAGEFRONT_DATABASE_PASSWORD_FIELD` | `string`        | `password` |
+| Option                               | Type     | Default    |
+| ------------------------------------ | -------- | ---------- |
+| `STAGEFRONT_DATABASE`                | `bool`   | `false`    |
+| `STAGEFRONT_DATABASE_WHITELIST`      | `string` | `null`     |
+| `STAGEFRONT_DATABASE_TABLE`          | `string` | `users`    |
+| `STAGEFRONT_DATABASE_LOGIN_FIELD`    | `string` | `email`    |
+| `STAGEFRONT_DATABASE_PASSWORD_FIELD` | `string` | `password` |
 
 If you want to grant access to just a few of those users, you can whitelist them by setting `STAGEFRONT_DATABASE_WHITELIST` to a comma separated string: `'john@doe.io,jane@doe.io'`.
 
