@@ -2,7 +2,7 @@
 
 namespace CodeZero\StageFront\Rules;
 
-use Hash;
+use CodeZero\StageFront\Checker;
 use Illuminate\Contracts\Validation\Rule;
 
 class LoginAndPasswordMatch implements Rule
@@ -34,7 +34,7 @@ class LoginAndPasswordMatch implements Rule
      */
     public function passes($passwordField, $password)
     {
-        return $this->verifyCredentials($this->login, $password);
+        return Checker::checkCredentials($this->login, $password);
     }
 
     /**
@@ -45,49 +45,5 @@ class LoginAndPasswordMatch implements Rule
     public function message()
     {
         return trans('stagefront::errors.password.match');
-    }
-
-    /**
-     * Verify that a login and password are valid.
-     *
-     * @param string $login
-     * @param string $password
-     *
-     * @return bool
-     */
-    protected function verifyCredentials($login, $password)
-    {
-        return $this->verifyLogin($login) && $this->verifyPassword($password);
-    }
-
-    /**
-     * Verify that the given login is valid.
-     *
-     * @param string $login
-     *
-     * @return bool
-     */
-    protected function verifyLogin($login)
-    {
-        return $login === config('stagefront.login');
-    }
-
-    /**
-     * Verify that the given password is valid.
-     *
-     * @param string $password
-     *
-     * @return bool
-     */
-    protected function verifyPassword($password)
-    {
-        $validPassword = config('stagefront.password');
-        $encrypted = config('stagefront.encrypted');
-
-        if ($encrypted === true) {
-            return Hash::check($password, $validPassword);
-        }
-
-        return $password === $validPassword;
     }
 }
