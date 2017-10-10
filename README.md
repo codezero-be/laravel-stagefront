@@ -13,7 +13,7 @@ Shielding a staging or demo website from the public usually involves setting op 
 
 It doesn't have to be!
 
-By installing StageFront with composer and setting 3 variables in your `.env` you are ready to go. As you will discover below, you also have a bunch more options available. 
+By installing StageFront with composer, adding the middleware and setting 3 variables in your `.env` you are ready to go. As you will discover below, you also have a bunch more options available. 
 
 ## Requirements
 
@@ -27,10 +27,17 @@ Require the package via Composer:
 ```
 composer require codezero/laravel-stagefront
 ```
+Add the middleware to the web middleware group, **right after the `SartSession` middleware** in `app/Http/Kernel.php`:
 
-Laravel will automatically register the [`ServiceProvider`](https://github.com/codezero-be/laravel-stagefront/blob/master/src/StageFrontServiceProvider.php) and the [`RedirectIfStageFrontIsEnabled`](https://github.com/codezero-be/laravel-stagefront/blob/master/src/Middleware/RedirectIfStageFrontIsEnabled.php) middleware. You just need to set some `.env` variables and your up and running!
+```php
+\CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled::class,
+```
 
-When StageFront is disabled, its routes and middleware will not be registered.
+Laravel will automatically register the [ServiceProvider](https://github.com/codezero-be/laravel-stagefront/blob/master/src/StageFrontServiceProvider.php) and routes.
+
+When StageFront is disabled, its routes will not be registered.
+
+Now you just need to set some `.env` variables and you are up and running!
 
 ## Quick Setup
 

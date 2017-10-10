@@ -3,8 +3,6 @@
 namespace CodeZero\StageFront;
 
 use CodeZero\StageFront\Composers\ThrottleTimeRemaining;
-use CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled;
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 
 class StageFrontServiceProvider extends ServiceProvider
@@ -27,7 +25,6 @@ class StageFrontServiceProvider extends ServiceProvider
         $this->loadViews();
         $this->loadViewComposers();
         $this->loadTranslations();
-        $this->loadMiddleware();
         $this->registerPublishableFiles();
     }
 
@@ -79,20 +76,6 @@ class StageFrontServiceProvider extends ServiceProvider
     protected function loadTranslations()
     {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', $this->name);
-    }
-
-    /**
-     * Load the package middleware.
-     *
-     * @return void
-     */
-    protected function loadMiddleware()
-    {
-        if (config('stagefront.enabled') === true) {
-            app(Kernel::class)->pushMiddleware(
-                RedirectIfStageFrontIsEnabled::class
-            );
-        }
     }
 
     /**
