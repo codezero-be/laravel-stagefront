@@ -83,9 +83,12 @@ return [
      * Since StageFront uses the session, we definitely require
      * the web middleware group. But you can change it if needed.
      *
-     * Default: ['web']
+     * Default: ['web', \CodeZero\StageFront\Middleware\DisableLaravelDebugbar::class]
      */
-    'middleware' => ['web'],
+    'middleware' => [
+        'web',
+        \CodeZero\StageFront\Middleware\DisableLaravelDebugbar::class,
+    ],
 
     /**
      * The following URLs will be ignored by StageFront.
