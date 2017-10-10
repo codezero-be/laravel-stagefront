@@ -22,13 +22,7 @@ Require the package via Composer:
 composer require codezero/laravel-stagefront
 ```
 
-Add the middleware to the web middleware group, **right after the `SartSession` middleware**:
-
-```php
-\CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled::class,
-```
-
-Laravel will automatically register the `ServiceProvider`.
+Laravel will automatically register the [`ServiceProvider`](https://github.com/codezero-be/laravel-stagefront/blob/master/src/StageFrontServiceProvider.php) and the [`RedirectIfStageFrontIsEnabled`](https://github.com/codezero-be/laravel-stagefront/blob/master/src/Middleware/RedirectIfStageFrontIsEnabled.php) middleware. You just need to set some `.env` variables and your up and running!
 
 ## Quick Setup
 
