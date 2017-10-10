@@ -20,6 +20,11 @@
             text-align: center;
             font-size: 20px;
         }
+        .stagefront-form {
+            width: 350px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
         .stagefront-form > div {
             display: flex;
             flex-direction: column;
@@ -126,13 +131,13 @@
             </button>
         </div>
 
-        @if ($liveSite)
-            <div class="stagefront-live-link">
-                {!! trans('stagefront::form.live', $liveSite) !!}
-            </div>
-        @endif
-
     </form>
+
+    @if ($liveSite)
+        <div class="stagefront-live-link">
+            {!! trans('stagefront::form.live', $liveSite) !!}
+        </div>
+    @endif
 
 </section>
 
