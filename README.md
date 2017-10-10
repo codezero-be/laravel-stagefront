@@ -9,10 +9,16 @@
 
 #### Quickly add some password protection to a staging site.
 
+Shielding a staging or demo website from the public usually involves setting op authentication separate from the actual project. This isn't always easy or is cumbersome at the least.
+
+It doesn't have to be!
+
+By installing StageFront with composer and setting 3 variables in your `.env` you are ready to go. As you will discover below, you also have a bunch more options available. 
+
 ## Requirements
 
 -   PHP >= 7.0
--   Laravel >= 5.5
+-   [Laravel](https://laravel.com/) >= 5.5
 
 ## Installation
 
@@ -24,11 +30,13 @@ composer require codezero/laravel-stagefront
 
 Laravel will automatically register the [`ServiceProvider`](https://github.com/codezero-be/laravel-stagefront/blob/master/src/StageFrontServiceProvider.php) and the [`RedirectIfStageFrontIsEnabled`](https://github.com/codezero-be/laravel-stagefront/blob/master/src/Middleware/RedirectIfStageFrontIsEnabled.php) middleware. You just need to set some `.env` variables and your up and running!
 
+When StageFront is disabled, its routes and middleware will not be registered.
+
 ## Quick Setup
 
 Set some options in your `.env` file or publish the [configuration file](#publish-configuration-file).
 
-See an [example .env file](.env.example).
+See an [example .env file](https://github.com/codezero-be/laravel-stagefront/blob/master/.env.example).
 
 Enable StageFront and choose a login and password:
 
@@ -158,6 +166,10 @@ vendor/bin/phpunit
 
 If you discover any security related issues, please [e-mail me](mailto:ivan@codezero.be) instead of using the issue tracker.
 
+## Changelog
+
+See a list of important changes in the [changelog](https://github.com/codezero-be/laravel-stagefront/blob/master/CHANGELOG.md).
+
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/codezero-be/laravel-stagefront/blob/master/LICENSE.md) for more information.
