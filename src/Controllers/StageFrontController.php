@@ -27,6 +27,8 @@ class StageFrontController extends Controller
             ];
         }
 
+        session()->flash('url.intended', session()->previousUrl());
+
         return view('stagefront::login', compact('liveSite'));
     }
 
