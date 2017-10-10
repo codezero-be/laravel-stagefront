@@ -79,6 +79,30 @@ return [
     'url' => env('STAGEFRONT_URL', 'stagefront'),
 
     /**
+     * To prevent malicious users from brute forcing passwords
+     * login attempts will be throttled unless you disable it.
+     *
+     * Default: true
+     */
+    'throttle' => env('STAGEFRONT_THROTTLE', true),
+
+    /**
+     * Number of failed login attempts per minute before
+     * users are locked out for a period of time.
+     *
+     * Default: 3
+     */
+    'throttle_tries' => env('STAGEFRONT_THROTTLE_TRIES', 3),
+
+    /**
+     * Number of minutes to lock out users after reaching
+     * the maximum number of login attempts.
+     *
+     * Default: 5
+     */
+    'throttle_delay' => env('STAGEFRONT_THROTTLE_DELAY', 5),
+
+    /**
      * The route middleware to use.
      * Since StageFront uses the session, we definitely require
      * the web middleware group. But you can change it if needed.

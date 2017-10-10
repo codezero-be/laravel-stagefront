@@ -242,6 +242,44 @@ class StageFrontTest extends TestCase
         $this->get('/public/route')->assertStatus(200)->assertSee('Route');
     }
 
+    /** @test */
+    public function it_throttles_login_attempts()
+    {
+        $faultyCredentials = [
+            'login' => 'tester',
+            'password' => 'invalid',
+        ];
+
+        config()->set('stagefront.throttle', true);
+        config()->set('stagefront.throttle_tries', 2);
+        config()->set('stagefront.throttle_delay', 2);
+
+        $this->enableStageFront();
+
+        $this->submitForm($faultyCredentials)->assertRedirect($this->url);
+        $this->submitForm($faultyCredentials)->assertRedirect($this->url);
+        $this->submitForm($faultyCredentials)->assertStatus(429);
+    }
+
+    /** @test */
+    public function throttling_login_attempts_can_be_disabled()
+    {
+        $faultyCredentials = [
+            'login' => 'tester',
+            'password' => 'invalid',
+        ];
+
+        config()->set('stagefront.throttle', false);
+        config()->set('stagefront.throttle_tries', 2);
+        config()->set('stagefront.throttle_delay', 2);
+
+        $this->enableStageFront();
+
+        $this->submitForm($faultyCredentials)->assertRedirect($this->url);
+        $this->submitForm($faultyCredentials)->assertRedirect($this->url);
+        $this->submitForm($faultyCredentials)->assertRedirect($this->url);
+    }
+
     /**
      * Tell Laravel we navigated to this intended URL and
      * got redirected to the login page so that

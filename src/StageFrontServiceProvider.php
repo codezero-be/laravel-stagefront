@@ -2,6 +2,7 @@
 
 namespace CodeZero\StageFront;
 
+use CodeZero\StageFront\Composers\ThrottleTimeRemaining;
 use Illuminate\Support\ServiceProvider;
 
 class StageFrontServiceProvider extends ServiceProvider
@@ -22,6 +23,7 @@ class StageFrontServiceProvider extends ServiceProvider
     {
         $this->loadRoutes();
         $this->loadViews();
+        $this->loadViewComposers();
         $this->loadTranslations();
         $this->registerPublishableFiles();
     }
@@ -54,6 +56,16 @@ class StageFrontServiceProvider extends ServiceProvider
     protected function loadViews()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', $this->name);
+    }
+
+    /**
+     * Load the package view composers.
+     *
+     * @return void
+     */
+    protected function loadViewComposers()
+    {
+        view()->composer('stagefront::429', ThrottleTimeRemaining::class);
     }
 
     /**

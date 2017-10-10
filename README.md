@@ -77,6 +77,34 @@ You can change the URL by setting this option:
 
 It runs under the `web` middleware since it uses the session to keep you logged in. You can change the middleware if needed in the [configuration file](#publish-configuration-file).
 
+## Throttle Login Attempts
+
+To prevent malicious users from brute forcing passwords, login attempts will be throttled unless you disable it. You can change the number of failed attempts per minute to allow, and the delay (in minutes) that users have to wait after reaching the maximum failed attempts.
+
+| Option                      | Type      | Default          |
+| --------------------------- | --------- | ---------------- |
+| `STAGEFRONT_THROTTLE`       | `bool`    | `true`           |
+| `STAGEFRONT_THROTTLE_TRIES` | `integer` | `3` (per minute) |
+| `STAGEFRONT_THROTTLE_DELAY` | `integer` | `5` (minutes)    |
+
+When you tried to login too many times, Laravel's 429 error page will be shown. You can easily modify this by creating a `429.blade.php` view in `resources/views/errors`. To save you a little time, I have included a localized template you can include in that page:
+
+```blade
+@include('stagefront::429')
+```
+
+If you want to include a different partial for other throttled pages, you can check the request:
+
+```blade
+@if (request()->is(config('stagefront.url')))
+    @include('stagefront::429')
+@else
+    @include('your.partial.view')
+@endif
+```
+
+Text in this view can be changed via the [translation files](#translations-and-views).
+
 ## Ignore URLs
 
 If for any reason you wish to disable StageFront on specific routes, you can add these to the `ignore_urls` array in the [configuration file](#publish-configuration-file). You can use wildcards if needed. You can't set this in the `.env` file.
@@ -112,7 +140,7 @@ php artisan vendor:publish
 
 Each option is documented.
 
-## Translations & Login View
+## Translations and Views
 
 You can publish the translations to quickly adjust the text on the login screen and the errors. If you want to customize the login page entirely, you can also publish the view.
 
