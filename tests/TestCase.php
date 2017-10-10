@@ -2,9 +2,7 @@
 
 namespace CodeZero\StageFront\Tests;
 
-use CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled;
 use CodeZero\StageFront\StageFrontServiceProvider;
-use Illuminate\Contracts\Http\Kernel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -17,10 +15,6 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         config()->set('app.key', str_random(32));
-
-        app(Kernel::class)->pushMiddleware(
-            RedirectIfStageFrontIsEnabled::class
-        );
     }
 
     /**
