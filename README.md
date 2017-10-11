@@ -147,6 +147,14 @@ If you set the URL to your live site, a link will be shown underneath the login 
 
 Make sure you enter the full URL, including `https://`.
 
+## Change App Name
+
+By default, the app name that is configured in `config/app.php` is shown as a title on the login and throttle page. You can use a different title by setting this option:
+
+| Option                | Type     | Default              |
+| --------------------- | -------- | -------------------- |
+| `STAGEFRONT_APP_NAME` | `string` | `config('app.name')` |
+
 ## Publish Configuration File
 
 You can also publish the configuration file.

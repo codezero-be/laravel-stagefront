@@ -3,6 +3,13 @@
 return [
 
     /**
+     * The app name that is shown on the login and throttle page.
+     *
+     * Default: config('app.name')
+     */
+    'app_name' => env('STAGEFRONT_APP_NAME', config('app.name')),
+
+    /**
      * Set an optional URL of the live version of the website.
      * This will be displayed on the login screen if set.
      * For example: 'https://www.site.com'

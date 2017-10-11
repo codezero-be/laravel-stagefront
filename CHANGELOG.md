@@ -2,6 +2,10 @@
 
 All Notable changes to `StageFront` will be documented in this file.
 
+## 1.1.3 (2017-10-11)
+
+-   Make app name an option, defaults to `config('app.name')`
+
 ## 1.1.2 (2017-10-10)
 
 -   Set intended URL before logging in
