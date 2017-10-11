@@ -169,7 +169,7 @@ Extra translations are always welcome. :)
 
 ## Laravel Debugbar
 
-Laravel Debugbar will be disabled on the StageFront routes automatically if you use it in your project. This will hide any potential sensitive data from the public, if by accident Debugbar is running on your staging site. You can remove this by editing the `middleware` option in the [configuration file](#publish-configuration-file).
+Laravel Debugbar will be disabled on the StageFront routes automatically if you use it in your project. This will hide any potential sensitive data from the public, if by accident Debugbar is running on your staging site. You can disable this feature by editing the `middleware` option in the [configuration file](#publish-configuration-file).
 
 ## Testing
 
