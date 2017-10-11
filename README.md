@@ -13,7 +13,7 @@ Shielding a staging or demo website from the public usually involves setting op 
 
 It doesn't have to be!
 
-By installing StageFront with composer, adding the middleware and setting 3 variables in your `.env` you are ready to go. As you will discover below, you also have a bunch more options available. 
+By installing StageFront with composer, adding the middleware and setting 3 variables in your `.env` file you are ready to go. As you will discover below, you also have a bunch more options available. 
 
 ## Requirements
 
@@ -27,7 +27,7 @@ Require the package via Composer:
 ```
 composer require codezero/laravel-stagefront
 ```
-Add the middleware to the web middleware group, **right after the `SartSession` middleware** in `app/Http/Kernel.php`:
+Add the middleware to the web middleware group, **right after the `StartSession` middleware** in `app/Http/Kernel.php`:
 
 ```php
 \CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled::class,
@@ -54,9 +54,10 @@ Enable StageFront and choose a login and password:
 | `STAGEFRONT_PASSWORD`  | `string` | `stagefront` |
 | `STAGEFRONT_ENCRYPTED` | `bool`   | `false`      |
 
-By default StageFront is disabled and uses a plain text password.
+By default StageFront is disabled and uses a plain text password when it's enabled.
 
 If you set `STAGEFRONT_ENCRYPTED` to `true` the password should be a hashed value.
+
 You can generate this using Laravel's `bcrypt('your password')` function.
 
 ## Database Logins
@@ -78,13 +79,16 @@ By default the `users` table is used with the `email` and `password` field names
 ## Change Route URL
 
 By default a `GET` and `POST` route will be registered with the `/stagefront` URL.
+
 You can change the URL by setting this option:
 
 | Option           | Type     | Default      |
 | ---------------- | -------- | ------------ |
 | `STAGEFRONT_URL` | `string` | `stagefront` |
 
-It runs under the `web` middleware since it uses the session to keep you logged in. You can change the middleware if needed in the [configuration file](#publish-configuration-file).
+It runs under the `web` middleware since it uses the session to keep you logged in. 
+
+You can change the middleware if needed in the [configuration file](#publish-configuration-file).
 
 ## Throttle Login Attempts
 
