@@ -13,7 +13,9 @@ Shielding a staging or demo website from the public usually involves setting op 
 
 It doesn't have to be!
 
-By installing StageFront with composer, adding the middleware and setting 3 variables in your `.env` file you are ready to go. As you will discover below, you also have a bunch more options available. 
+By installing StageFront with composer, adding the middleware and setting 3 variables in your `.env` file you are ready to go. As you will discover below, you also have a bunch more options available.
+
+![Login Screen](screenshot-login.png)
 
 ## Requirements
 
@@ -117,6 +119,8 @@ If you want to include a different partial for other throttled pages, you can ch
 ```
 
 Text in this view can be changed via the [translation files](#translations-and-views).
+
+![Throttle Screen](screenshot-throttled.png)
 
 ## Ignore URLs
 
