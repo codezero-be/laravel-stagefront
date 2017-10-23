@@ -31,7 +31,7 @@ class ThrottleTimeRemaining
             return trans('stagefront::errors.throttled.moment');
         }
 
-        $secondsRemaining = $this->getSecondRemaining($key);
+        $secondsRemaining = $this->getSecondsRemaining($key);
 
         Carbon::setLocale(app()->getLocale());
 
@@ -69,7 +69,7 @@ class ThrottleTimeRemaining
      *
      * @return mixed
      */
-    protected function getSecondRemaining($key)
+    protected function getSecondsRemaining($key)
     {
         return app(RateLimiter::class)->availableIn($key);
     }
