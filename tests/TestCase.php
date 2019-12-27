@@ -3,20 +3,11 @@
 namespace CodeZero\StageFront\Tests;
 
 use CodeZero\StageFront\StageFrontServiceProvider;
+use Illuminate\Support\Str;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    /**
-     * Setup the test environment.
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        config()->set('app.key', str_random(32));
-    }
-
     /**
      * Define environment setup.
      *
@@ -26,6 +17,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app['config']->set('app.key', Str::random(32));
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
             'driver'   => 'sqlite',

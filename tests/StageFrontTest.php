@@ -16,21 +16,12 @@ class StageFrontTest extends TestCase
      */
     protected $url;
 
-    public function setUp()
-    {
-        parent::setUp();
-
-        // Note that changing the URL or middleware config in the tests
-        // has no effect until you call $this->enableStageFront().
-        // It is disabled by default so nothing is loaded by default.
-        $this->url = config('stagefront.url');
-
-        $this->registerRoute('/page', 'Some Page');
-    }
-
     /** @test */
     public function it_redirects_to_a_login_screen_when_stagefront_is_enabled()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->enableStageFront();
 
         $this->get('/page')->assertRedirect($this->url);
@@ -39,18 +30,27 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_does_not_redirect_to_a_login_screen_when_stagefront_is_disabled()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->get('/page')->assertStatus(200)->assertSee('Some Page');
     }
 
     /** @test */
     public function the_login_route_does_not_exist_when_stagefront_is_disabled()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->get($this->url)->assertStatus(404);
     }
 
     /** @test */
     public function it_redirects_to_the_intended_url_when_you_provide_valid_credentials()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', 'p4ssw0rd');
 
@@ -68,6 +68,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_does_not_allow_access_when_you_provide_invalid_credentials()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', 'p4ssw0rd');
 
@@ -86,6 +89,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_redirects_home_if_you_are_already_logged_in()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->enableStageFront();
 
         session()->put('stagefront.unlocked', true);
@@ -96,6 +102,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function the_password_may_be_stored_encrypted()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         config()->set('stagefront.login', 'tester');
         config()->set('stagefront.password', bcrypt('p4ssw0rd'));
         config()->set('stagefront.encrypted', true);
@@ -114,6 +123,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function the_users_in_the_database_can_be_used_for_logging_in()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->loadLaravelMigrations(['--database' => 'testing']);
 
         User::create([
@@ -141,6 +153,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function you_can_limit_which_database_users_have_access_using_a_comma_separated_string()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->loadLaravelMigrations(['--database' => 'testing']);
 
         User::create([
@@ -186,6 +201,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function you_can_limit_which_database_users_have_access_using_an_array()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->loadLaravelMigrations(['--database' => 'testing']);
 
         User::create([
@@ -231,6 +249,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function urls_can_be_ignored_so_access_is_not_denied_by_stagefront()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $this->registerRoute('/public', 'Public');
         $this->registerRoute('/public/route', 'Route');
 
@@ -245,6 +266,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function it_throttles_login_attempts()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $faultyCredentials = [
             'login' => 'tester',
             'password' => 'invalid',
@@ -264,6 +288,9 @@ class StageFrontTest extends TestCase
     /** @test */
     public function throttling_login_attempts_can_be_disabled()
     {
+        $this->url = config('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
         $faultyCredentials = [
             'login' => 'tester',
             'password' => 'invalid',
