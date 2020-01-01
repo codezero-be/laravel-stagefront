@@ -2,6 +2,9 @@
 
 namespace CodeZero\StageFront;
 
+use CodeZero\StageFront\Commands\DisableStageFront;
+use CodeZero\StageFront\Commands\EnableStageFront;
+use CodeZero\StageFront\Commands\SetCredentials;
 use CodeZero\StageFront\Composers\ThrottleTimeRemaining;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +29,7 @@ class StageFrontServiceProvider extends ServiceProvider
         $this->loadViewComposers();
         $this->loadTranslations();
         $this->registerPublishableFiles();
+        $this->registerArtisanCommands();
     }
 
     /**
@@ -107,5 +111,21 @@ class StageFrontServiceProvider extends ServiceProvider
     protected function mergeConfig()
     {
         $this->mergeConfigFrom(__DIR__."/../config/{$this->name}.php", $this->name);
+    }
+
+    /**
+     * Register artisan commands.
+     *
+     * @return void
+     */
+    protected function registerArtisanCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                SetCredentials::class,
+                EnableStageFront::class,
+                DisableStageFront::class,
+            ]);
+        }
     }
 }

@@ -74,11 +74,28 @@ Enable StageFront and choose a login and password:
 | `STAGEFRONT_PASSWORD`  | `string` | `stagefront` |
 | `STAGEFRONT_ENCRYPTED` | `bool`   | `false`      |
 
-By default StageFront is disabled and uses a plain text password when it's enabled.
+By default StageFront is disabled and uses a plain text password when it's enabled. If you set `STAGEFRONT_ENCRYPTED` to `true` the password should be a hashed value. You can generate this using Laravel's `\Hash::make('your password')` function.
 
-If you set `STAGEFRONT_ENCRYPTED` to `true` the password should be a hashed value.
+##### Artisan Commands for Quick Setup
 
-You can generate this using Laravel's `\Hash::make('your password')` function.
+You can also update the credentials in the `.env` file with our `artisan` command:
+
+```bash
+php artisan stagefront:credentials <username> <password> --encrypt
+```
+
+If you don't enter a username or password, the command will ask for your input step by step:
+
+```bash
+php artisan stagefront:credentials
+```
+
+Next, you can enable or disable StageFront:
+
+```bash
+php artisan stagefront:enable
+php artisan stagefront:disable
+```
 
 ## 👥 Database Logins
 

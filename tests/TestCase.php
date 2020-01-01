@@ -2,6 +2,7 @@
 
 namespace CodeZero\StageFront\Tests;
 
+use CodeZero\DotEnvUpdater\Laravel\DotEnvUpdaterServiceProvider;
 use CodeZero\StageFront\StageFrontServiceProvider;
 use Illuminate\Support\Str;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -34,6 +35,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
+            DotEnvUpdaterServiceProvider::class,
             StageFrontServiceProvider::class,
         ];
     }
