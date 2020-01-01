@@ -7,7 +7,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/codezero/laravel-stagefront.svg)](https://packagist.org/packages/codezero/laravel-stagefront)
 
-#### Quickly add some password protection to a staging site.
+#### Quickly add password protection to a staging site.
 
 Shielding a staging or demo website from the public usually involves setting op authentication separate from the actual project. This isn't always easy or is cumbersome at the least.
 
@@ -17,31 +17,49 @@ By installing StageFront with composer, adding the middleware and setting 3 vari
 
 ![Login Screen](screenshots/screenshot-login.png)
 
-## Requirements
+## ✅ Requirements
 
--   PHP >= 7.0
--   [Laravel](https://laravel.com/) >= 5.5
+-   PHP >= 7.1
+-   [Laravel](https://laravel.com/) >= 5.6
 
-## Installation
+## 📦 Installation
 
-Require the package via Composer:
+#### ☑️ Require the package via Composer:
 
-```
+```bash
 composer require codezero/laravel-stagefront
 ```
-Add the middleware to the web middleware group, **right after the `StartSession` middleware** in `app/Http/Kernel.php`:
-
-```php
-\CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled::class,
-```
-
 Laravel will automatically register the [ServiceProvider](https://github.com/codezero-be/laravel-stagefront/blob/master/src/StageFrontServiceProvider.php) and routes.
 
 When StageFront is disabled, its routes will not be registered.
 
+#### ☑️ Install Middleware
+
+To activate the middleware, add it to the `web` middleware group in `app/Http/Kernel.php`, **right after the `StartSession` middleware**:
+
+```php
+protected $middlewareGroups = [
+    'web' => [
+        \Illuminate\Session\Middleware\StartSession::class, // <= after this
+        \CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled::class,
+        //...
+    ],
+];
+```
+
+In Laravel 6+ you need to add the middleware to the `$middlewarePriority` array in `app/Http/Kernel.php`, **right after the `StartSession` middleware**. 
+
+```php
+protected $middlewarePriority = [
+    \Illuminate\Session\Middleware\StartSession::class, // <= after this
+    \CodeZero\StageFront\Middleware\RedirectIfStageFrontIsEnabled::class,
+    //...
+];
+```
+
 Now you just need to set some `.env` variables and you are up and running!
 
-## Quick Setup
+## ⌨️ Quick Setup
 
 Set some options in your `.env` file or publish the [configuration file](#publish-configuration-file).
 
@@ -62,9 +80,10 @@ If you set `STAGEFRONT_ENCRYPTED` to `true` the password should be a hashed valu
 
 You can generate this using Laravel's `\Hash::make('your password')` function.
 
-## Database Logins
+## 👥 Database Logins
 
-If you have existing users in the database and want to use those credentials, you can set `STAGEFRONT_DATABASE` to `true`. The above settings will then be ignored.
+If you have existing users in the database and want to use those credentials, you can set `STAGEFRONT_DATABASE` to `true`.
+The above login and password settings will then be ignored.
 
 | Option                               | Type     | Default    |
 | ------------------------------------ | -------- | ---------- |
@@ -78,7 +97,9 @@ If you want to grant access to just a few of those users, you can whitelist them
 
 By default the `users` table is used with the `email` and `password` field names. But you can change this if you are using some other table or fields.
 
-## Change Route URL
+## ⚙️ Other Options
+
+#### ☑️ Change Route URL
 
 By default a `GET` and `POST` route will be registered with the `/stagefront` URL.
 
@@ -92,7 +113,7 @@ It runs under the `web` middleware since it uses the session to keep you logged 
 
 You can change the middleware if needed in the [configuration file](#publish-configuration-file).
 
-## Throttle Login Attempts
+#### ☑️ Throttle Login Attempts
 
 To prevent malicious users from brute forcing passwords, login attempts will be throttled unless you disable it. You can change the number of failed attempts per minute to allow, and the delay (in minutes) that users have to wait after reaching the maximum failed attempts.
 
@@ -122,7 +143,7 @@ Text in this view can be changed via the [translation files](#translations-and-v
 
 ![Throttle Screen](screenshots/screenshot-throttled.png)
 
-## Ignore URLs
+#### ☑️ Ignore URLs
 
 If for any reason you wish to disable StageFront on specific routes, you can add these to the `ignore_urls` array in the [configuration file](#publish-configuration-file). You can use wildcards if needed. You can't set this in the `.env` file.
 
@@ -137,7 +158,7 @@ For example:
 ],
 ```
 
-## Link Live Site
+#### ☑️ Link Live Site
 
 If you set the URL to your live site, a link will be shown underneath the login form.
 
@@ -147,7 +168,7 @@ If you set the URL to your live site, a link will be shown underneath the login 
 
 Make sure you enter the full URL, including `https://`.
 
-## Change App Name
+#### ☑️ Change App Name
 
 By default, the app name that is configured in `config/app.php` is shown as a title on the login and throttle page. You can use a different title by setting this option:
 
@@ -155,44 +176,55 @@ By default, the app name that is configured in `config/app.php` is shown as a ti
 | --------------------- | -------- | -------------------- |
 | `STAGEFRONT_APP_NAME` | `string` | `config('app.name')` |
 
-## Publish Configuration File
+## 📇 Publish Configuration File
 
 You can also publish the configuration file.
 
-```
-php artisan vendor:publish
+```bash
+php artisan vendor:publish --provider="CodeZero\StageFront\StageFrontServiceProvider" --tag="config"
 ```
 
 Each option is documented.
 
-## Translations and Views
+## 📑 Translations and Views
 
-You can publish the translations to quickly adjust the text on the login screen and the errors. If you want to customize the login page entirely, you can also publish the view.
+You can publish the translations to quickly adjust the text on the login screen and the errors.
 
+```bash
+php artisan vendor:publish --provider="CodeZero\StageFront\StageFrontServiceProvider" --tag="lang"
 ```
-php artisan vendor:publish
+
+If you want to customize the login page entirely, you can also publish the view.
+
+```bash
+php artisan vendor:publish --provider="CodeZero\StageFront\StageFrontServiceProvider" --tag="views"
 ```
 
-Extra translations are always welcome. :)
+> Extra translations are always welcome. :)
 
-## Laravel Debugbar
+## 📏 Laravel Debugbar
 
 Laravel Debugbar will be disabled on the StageFront routes automatically if you use it in your project. This will hide any potential sensitive data from the public, if by accident Debugbar is running on your staging site. You can disable this feature by editing the `middleware` option in the [configuration file](#publish-configuration-file).
 
-## Testing
+## 🚧 Testing
 
-```
-vendor/bin/phpunit
+```bash
+composer test
 ```
 
-## Security
+## ☕️ Credits
+
+- [Ivan Vermeyen](https://byterider.io/)
+- [All contributors](../../contributors)
+
+## 🔓 Security
 
 If you discover any security related issues, please [e-mail me](mailto:ivan@codezero.be) instead of using the issue tracker.
 
-## Changelog
+## 📑 Changelog
 
-See a list of important changes in the [changelog](https://github.com/codezero-be/laravel-stagefront/blob/master/CHANGELOG.md).
+See a list of important changes in the [changelog](CHANGELOG.md).
 
-## License
+## 📜 License
 
-The MIT License (MIT). Please see [License File](https://github.com/codezero-be/laravel-stagefront/blob/master/LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
