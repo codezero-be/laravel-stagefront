@@ -2,6 +2,10 @@
 
 All Notable changes to `StageFront` will be documented in this file.
 
+## 2.0.1 (2020-01-01)
+
+- Fix incorrect env key
+
 ## 2.0.0 (2020-01-01)
 
 - Drop support for PHP 7.0

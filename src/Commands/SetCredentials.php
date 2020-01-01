@@ -41,7 +41,7 @@ class SetCredentials extends Command
 
         $updater->set('STAGEFRONT_LOGIN', $username);
         $updater->set('STAGEFRONT_PASSWORD', $password);
-        $updater->set('STAGEFRONT_ENCRYPT', $encrypt);
+        $updater->set('STAGEFRONT_ENCRYPTED', $encrypt);
 
         $this->info("StageFront credentials were written to [.env].");
     }

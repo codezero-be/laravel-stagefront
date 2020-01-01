@@ -12,7 +12,7 @@ class SetCredentialsTest extends CommandTestCase
 
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -24,7 +24,7 @@ class SetCredentialsTest extends CommandTestCase
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertNotEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
         $this->assertNotEmpty($this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertTrue($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertTrue($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class SetCredentialsTest extends CommandTestCase
 
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -55,7 +55,7 @@ class SetCredentialsTest extends CommandTestCase
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertNotEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
         $this->assertNotEmpty($this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertTrue($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertTrue($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -72,7 +72,7 @@ class SetCredentialsTest extends CommandTestCase
 
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -89,7 +89,7 @@ class SetCredentialsTest extends CommandTestCase
 
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -107,7 +107,7 @@ class SetCredentialsTest extends CommandTestCase
 
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -121,7 +121,7 @@ class SetCredentialsTest extends CommandTestCase
 
         $this->assertEquals('admin', $this->updater->get('STAGEFRONT_LOGIN'));
         $this->assertEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertFalse($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 
     /** @test */
@@ -135,6 +135,6 @@ class SetCredentialsTest extends CommandTestCase
 
         $this->assertNotEquals('abc123', $this->updater->get('STAGEFRONT_PASSWORD'));
         $this->assertNotEmpty($this->updater->get('STAGEFRONT_PASSWORD'));
-        $this->assertTrue($this->updater->get('STAGEFRONT_ENCRYPT'));
+        $this->assertTrue($this->updater->get('STAGEFRONT_ENCRYPTED'));
     }
 }
