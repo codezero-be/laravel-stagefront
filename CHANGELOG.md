@@ -2,6 +2,15 @@
 
 All Notable changes to `StageFront` will be documented in this file.
 
+## 2.0.0 (2020-01-01)
+
+- Drop support for PHP 7.0
+- Drop support for Laravel 5.5
+- Drop support for Laravel 5.6
+- Add command: `php artisan stagefront:credentials`
+- Add command: `php artisan stagefront:enable`
+- Add command: `php artisan stagefront:disable`
+
 ## 1.1.4 (2020-01-01)
 
 - Fix typo in README
