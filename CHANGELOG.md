@@ -2,6 +2,10 @@
 
 All Notable changes to `StageFront` will be documented in this file.
 
+## 1.1.4 (2020-01-01)
+
+- Fix typo in README
+
 ## 1.1.3 (2017-10-11)
 
 -   Make app name an option, defaults to `config('app.name')`
