@@ -60,7 +60,7 @@ By default StageFront is disabled and uses a plain text password when it's enabl
 
 If you set `STAGEFRONT_ENCRYPTED` to `true` the password should be a hashed value.
 
-You can generate this using Laravel's `bcrypt('your password')` function.
+You can generate this using Laravel's `\Hash::make('your password')` function.
 
 ## Database Logins
 
