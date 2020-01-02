@@ -77,8 +77,7 @@ class Shield
     protected function clientIpIsWhitelisted()
     {
         $clientIp = Request::ip();
-        $whitelist = explode(',', $this->getIpWhitelist());
-        $ips = array_map('trim', $whitelist);
+        $ips = array_map('trim', $this->getIpWhitelist());
 
         return in_array($clientIp, $ips);
     }
@@ -90,17 +89,23 @@ class Shield
      */
     protected function hasIpWhitelist()
     {
-        return ! empty(trim($this->getIpWhitelist()));
+        return ! empty($this->getIpWhitelist());
     }
 
     /**
      * Get the IP whitelist from the config file.
      *
-     * @return string
+     * @return array
      */
     protected function getIpWhitelist()
     {
-        return Config::get('stagefront.ip_whitelist', '');
+        $whitelist = Config::get('stagefront.ip_whitelist', []);
+
+        if (is_array($whitelist)) {
+            return $whitelist;
+        }
+
+        return explode(',', $whitelist);
     }
 
     /**

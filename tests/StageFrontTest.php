@@ -271,6 +271,26 @@ class StageFrontTest extends TestCase
     }
 
     /** @test */
+    public function you_can_add_a_whitelist_as_an_array()
+    {
+        $this->url = Config::get('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
+        $this->enableStageFront();
+        $this->setIntendedUrl('/page');
+
+        Config::set('stagefront.ip_whitelist', ['0.0.0.0', '1.1.1.1']);
+        Config::set('stagefront.ip_whitelist_only', true);
+        Config::set('stagefront.ip_whitelist_require_login', false);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.2.3.4'])
+            ->assertStatus(403);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.1.1.1'])
+            ->assertOk();
+    }
+
+    /** @test */
     public function it_allows_access_to_whitelisted_ips_only_with_required_login()
     {
         $this->url = Config::get('stagefront.url');

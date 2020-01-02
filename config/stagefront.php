@@ -79,8 +79,8 @@ return [
 
     /**
      * Allow access from whitelisted IP's.
-     * Enter a string of comma separated IP's or null to allow all IP's.
-     * For example: '1.2.3.4,1.2.3.4'
+     * Enter an array or string of comma separated IP's or null to allow all IP's.
+     * For example: ['1.2.3.4', '1.2.3.4'] or '1.2.3.4,1.2.3.4'
      * If empty, all IP's are allowed.
      *
      * Default: null
