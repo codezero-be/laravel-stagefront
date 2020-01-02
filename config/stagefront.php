@@ -83,9 +83,9 @@ return [
      * For example: '1.2.3.4,1.2.3.4'
      * If empty, all IP's are allowed.
      *
-     * Default: ''
+     * Default: null
      */
-    'ip_whitelist' => env('STAGEFRONT_IP_WHITELIST', ''),
+    'ip_whitelist' => env('STAGEFRONT_IP_WHITELIST', null),
 
     /**
      * Should only whitelisted IP's get access?
