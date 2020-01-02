@@ -111,6 +111,7 @@ The above login and password settings will then be ignored.
 | `STAGEFRONT_DATABASE_PASSWORD_FIELD` | `string` | `password` |
 
 If you want to grant access to just a few of those users, you can whitelist them by setting `STAGEFRONT_DATABASE_WHITELIST` to a comma separated string: `'john@doe.io,jane@doe.io'`.
+In the config file itself you can also use an array of e-mail addresses.
 
 By default the `users` table is used with the `email` and `password` field names. But you can change this if you are using some other table or fields.
 
