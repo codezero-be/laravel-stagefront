@@ -64,7 +64,7 @@ return [
     /**
      * When using the database, you can limit access to specific users.
      * Enter aan array or string of comma separated logins, or null to allow all users.
-     * For example: 'john@doe.io,jane@doe.io'
+     * For example: ['john@doe.io', 'jane@doe.io'] or 'john@doe.io,jane@doe.io'
      *
      * Default: null
      */
