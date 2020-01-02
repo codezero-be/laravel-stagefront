@@ -3,11 +3,28 @@
 namespace CodeZero\StageFront\Middleware;
 
 use Closure;
+use CodeZero\StageFront\Shield;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
 
 class RedirectIfStageFrontIsEnabled
 {
+    /**
+     * Shield instance.
+     *
+     * @var \CodeZero\StageFront\Shield
+     */
+    protected $shield;
+
+    /**
+     * Create a new RedirectIfStageFrontIsEnabled instance.
+     *
+     * @param \CodeZero\StageFront\Shield $shield
+     */
+    public function __construct(Shield $shield)
+    {
+        $this->shield = $shield;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -18,37 +35,12 @@ class RedirectIfStageFrontIsEnabled
      */
     public function handle($request, Closure $next)
     {
-        $disabled = ! Config::get('stagefront.enabled', false);
-        $unlocked = Session::get('stagefront.unlocked', false);
         $stageFrontUrl = Config::get('stagefront.url');
-        $ignoredUrls = Config::get('stagefront.ignore_urls', []);
-        array_push($ignoredUrls, $stageFrontUrl);
 
-        if ($unlocked || $disabled || $this->urlIsIgnored($request, $ignoredUrls)) {
-            return $next($request);
+        if ($this->shield->requiresLogin()) {
+            return redirect($stageFrontUrl);
         }
 
-        return redirect($stageFrontUrl);
-    }
-
-    /**
-     * Check if a URL should be ignored.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param array $ignoredUrls
-     *
-     * @return bool
-     */
-    protected function urlIsIgnored($request, $ignoredUrls)
-    {
-        foreach ($ignoredUrls as $url) {
-            $url = trim($url, '/');
-
-            if ($request->is($url)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $next($request);
     }
 }
