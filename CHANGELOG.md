@@ -2,6 +2,10 @@
 
 All Notable changes to `StageFront` will be documented in this file.
 
+## 2.1.0 (2020-01-03)
+
+- Add ability to whitelist IP's
+
 ## 2.0.1 (2020-01-01)
 
 - Fix incorrect env key
