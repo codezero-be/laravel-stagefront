@@ -114,6 +114,26 @@ If you want to grant access to just a few of those users, you can whitelist them
 
 By default the `users` table is used with the `email` and `password` field names. But you can change this if you are using some other table or fields.
 
+## 🔖 IP Whitelist
+
+You can add a comma separated list of IP's to grant these users easier or exclusive access to your staging site.
+For example: `'1.2.3.4,1.2.3.4'`. In the config file itself you can also use an array of IP's.
+
+| Option                                  | Type     | Default    |
+| --------------------------------------- | -------- | ---------- |
+| `STAGEFRONT_IP_WHITELIST`               | `string` | `null`     |
+| `STAGEFRONT_IP_WHITELIST_ONLY`          | `bool`   | `false`    |
+| `STAGEFRONT_IP_WHITELIST_REQUIRE_LOGIN` | `bool`   | `false`    |
+
+When you add IP's to your whitelist, the default behavior is that these users will have instant access to the site,
+while someone with another IP will be presented with the normal login form. 
+
+To exclusively allow whitelisted IP's to access your site, set `STAGEFRONT_IP_WHITELIST_ONLY` to `true`.
+Users from other IP's will now get a `403 - Forbidden` error.
+
+To crank up security, you may also require whitelisted IP's to go through the login form.
+Set `STAGEFRONT_IP_WHITELIST_REQUIRE_LOGIN` to `true` to set this up.
+
 ## ⚙️ Other Options
 
 #### ☑️ Change Route URL
