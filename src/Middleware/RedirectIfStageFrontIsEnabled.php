@@ -3,6 +3,8 @@
 namespace CodeZero\StageFront\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
 
 class RedirectIfStageFrontIsEnabled
 {
@@ -16,10 +18,10 @@ class RedirectIfStageFrontIsEnabled
      */
     public function handle($request, Closure $next)
     {
-        $disabled = ! config('stagefront.enabled', false);
-        $unlocked = session('stagefront.unlocked', false);
-        $stageFrontUrl = config('stagefront.url');
-        $ignoredUrls = config('stagefront.ignore_urls', []);
+        $disabled = ! Config::get('stagefront.enabled', false);
+        $unlocked = Session::get('stagefront.unlocked', false);
+        $stageFrontUrl = Config::get('stagefront.url');
+        $ignoredUrls = Config::get('stagefront.ignore_urls', []);
         array_push($ignoredUrls, $stageFrontUrl);
 
         if ($unlocked || $disabled || $this->urlIsIgnored($request, $ignoredUrls)) {

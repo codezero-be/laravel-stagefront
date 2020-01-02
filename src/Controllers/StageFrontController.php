@@ -4,6 +4,10 @@ namespace CodeZero\StageFront\Controllers;
 
 use CodeZero\StageFront\Rules\LoginAndPasswordMatch;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 
 class StageFrontController extends Controller
 {
@@ -14,11 +18,11 @@ class StageFrontController extends Controller
      */
     public function create()
     {
-        if (session('stagefront.unlocked') === true) {
+        if (Session::get('stagefront.unlocked') === true) {
             return redirect('/');
         }
 
-        $liveSite = config('stagefront.live_site');
+        $liveSite = Config::get('stagefront.live_site');
 
         if ($liveSite) {
             $liveSite = [
@@ -27,7 +31,7 @@ class StageFrontController extends Controller
             ];
         }
 
-        session()->flash('url.intended', session()->previousUrl());
+        Session::flash('url.intended', Session::previousUrl());
 
         return view('stagefront::login', compact('liveSite'));
     }
@@ -39,15 +43,15 @@ class StageFrontController extends Controller
      */
     public function store()
     {
-        request()->validate([
+        Request::validate([
             'login' => ['required'],
             'password' => ['required', new LoginAndPasswordMatch()],
         ], [
-            'login.required' => trans('stagefront::errors.login.required'),
-            'password.required' => trans('stagefront::errors.password.required'),
+            'login.required' => Lang::get('stagefront::errors.login.required'),
+            'password.required' => Lang::get('stagefront::errors.password.required'),
         ]);
 
-        session()->put('stagefront.unlocked', true);
+        Session::put('stagefront.unlocked', true);
 
         return redirect()->intended('/');
     }

@@ -5,6 +5,9 @@ namespace CodeZero\StageFront\Composers;
 use Carbon\Carbon;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Request;
 
 class ThrottleTimeRemaining
 {
@@ -28,12 +31,12 @@ class ThrottleTimeRemaining
     protected function getTimeRemaining()
     {
         if ( ! $key = $this->getCacheKey()) {
-            return trans('stagefront::errors.throttled.moment');
+            return Lang::get('stagefront::errors.throttled.moment');
         }
 
         $secondsRemaining = $this->getSecondsRemaining($key);
 
-        Carbon::setLocale(app()->getLocale());
+        Carbon::setLocale(App::getLocale());
 
         return Carbon::now()
             ->addSeconds($secondsRemaining)
@@ -49,14 +52,12 @@ class ThrottleTimeRemaining
      */
     protected function getCacheKey()
     {
-        $request = request();
-
-        if ($user = $request->user()) {
+        if ($user = Request::user()) {
             return sha1($user->getAuthIdentifier());
         }
 
-        if ($route = $request->route()) {
-            return sha1($route->getDomain().'|'.$request->ip());
+        if ($route = Request::route()) {
+            return sha1($route->getDomain().'|'.Request::ip());
         }
 
         return null;
@@ -71,6 +72,6 @@ class ThrottleTimeRemaining
      */
     protected function getSecondsRemaining($key)
     {
-        return app(RateLimiter::class)->availableIn($key);
+        return App::make(RateLimiter::class)->availableIn($key);
     }
 }

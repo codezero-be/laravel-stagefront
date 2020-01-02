@@ -4,6 +4,8 @@ namespace CodeZero\StageFront\Rules;
 
 use CodeZero\StageFront\Authenticator;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Request;
 
 class LoginAndPasswordMatch implements Rule
 {
@@ -21,7 +23,7 @@ class LoginAndPasswordMatch implements Rule
      */
     public function __construct($loginField = 'login')
     {
-        $this->login = request($loginField);
+        $this->login = Request::get($loginField);
     }
 
     /**
@@ -44,6 +46,6 @@ class LoginAndPasswordMatch implements Rule
      */
     public function message()
     {
-        return trans('stagefront::errors.password.match');
+        return Lang::get('stagefront::errors.password.match');
     }
 }

@@ -2,7 +2,8 @@
 
 namespace CodeZero\StageFront\Authenticators;
 
-use Hash;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 
 class EncryptedAuthenticator implements Authenticator
 {
@@ -28,7 +29,7 @@ class EncryptedAuthenticator implements Authenticator
      */
     protected function checkLogin($login)
     {
-        return $login === config('stagefront.login');
+        return $login === Config::get('stagefront.login');
     }
 
     /**
@@ -40,6 +41,6 @@ class EncryptedAuthenticator implements Authenticator
      */
     protected function checkPassword($password)
     {
-        return Hash::check($password, config('stagefront.password'));
+        return Hash::check($password, Config::get('stagefront.password'));
     }
 }

@@ -2,8 +2,9 @@
 
 namespace CodeZero\StageFront\Authenticators;
 
-use DB;
-use Hash;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseAuthenticator implements Authenticator
 {
@@ -32,7 +33,7 @@ class DatabaseAuthenticator implements Authenticator
      */
     protected function checkPassword($password, $user)
     {
-        $passwordField = config('stagefront.database_password_field');
+        $passwordField = Config::get('stagefront.database_password_field');
 
         return Hash::check($password, $user->{$passwordField});
     }
@@ -50,8 +51,8 @@ class DatabaseAuthenticator implements Authenticator
             return null;
         }
 
-        $table = config('stagefront.database_table');
-        $loginField = config('stagefront.database_login_field');
+        $table = Config::get('stagefront.database_table');
+        $loginField = Config::get('stagefront.database_login_field');
 
         return DB::table($table)->where($loginField, '=', $login)->first();
     }
@@ -77,7 +78,7 @@ class DatabaseAuthenticator implements Authenticator
      */
     protected function getWhitelist()
     {
-        $whitelist = config('stagefront.database_whitelist', []);
+        $whitelist = Config::get('stagefront.database_whitelist', []);
 
         if ( ! is_array($whitelist)) {
             $whitelist = explode(',', $whitelist) ?: [];

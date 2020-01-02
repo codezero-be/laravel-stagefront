@@ -2,6 +2,8 @@
 
 namespace CodeZero\StageFront\Authenticators;
 
+use Illuminate\Support\Facades\Config;
+
 class PlainTextAuthenticator implements Authenticator
 {
     /**
@@ -26,7 +28,7 @@ class PlainTextAuthenticator implements Authenticator
      */
     protected function checkLogin($login)
     {
-        return $login === config('stagefront.login');
+        return $login === Config::get('stagefront.login');
     }
 
     /**
@@ -38,6 +40,6 @@ class PlainTextAuthenticator implements Authenticator
      */
     protected function checkPassword($password)
     {
-        return $password === config('stagefront.password');
+        return $password === Config::get('stagefront.password');
     }
 }

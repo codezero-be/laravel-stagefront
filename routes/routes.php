@@ -1,15 +1,17 @@
 <?php
 
 use CodeZero\StageFront\Controllers\StageFrontController;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 
-if (config('stagefront.enabled') === true) {
+if (Config::get('stagefront.enabled') === true) {
 
-    Route::group(['middleware' => config('stagefront.middleware')], function () {
+    Route::group(['middleware' => Config::get('stagefront.middleware')], function () {
 
-        $url = config('stagefront.url');
-        $throttle = config('stagefront.throttle');
-        $tries = config('stagefront.throttle_tries');
-        $delay = config('stagefront.throttle_delay');
+        $url = Config::get('stagefront.url');
+        $throttle = Config::get('stagefront.throttle');
+        $tries = Config::get('stagefront.throttle_tries');
+        $delay = Config::get('stagefront.throttle_delay');
         $middleware = $throttle ? "throttle:{$tries},{$delay}" : [];
 
         Route::get($url, StageFrontController::class.'@create');
