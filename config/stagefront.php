@@ -36,7 +36,7 @@ return [
 
     /**
      * The password to use. You can set it in plain text,
-     * or use bcrypt('my-secret') to generate an encrypted value.
+     * or use \Hash::make('my-secret') to generate an encrypted value.
      *
      * Default: 'stagefront' (change this!)
      */
@@ -44,7 +44,7 @@ return [
 
     /**
      * Are you using an encrypted password?
-     * Set this to true and use bcrypt('my-secret') to generate an encrypted value.
+     * Set this to true and use \Hash::make('my-secret') to generate an encrypted value.
      * Or set this to false and use a plain text password.
      *
      * Default: false
