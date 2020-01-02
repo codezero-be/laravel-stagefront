@@ -9,11 +9,38 @@ use Illuminate\Support\Facades\Session;
 class Shield
 {
     /**
+     * Check if StageFront should deny access to the user
+     * with a 403 Forbidden HTTP status.
+     *
+     * @return bool
+     */
+    public function shouldDenyAccess()
+    {
+        return $this->isActive()
+            && ($this->hasIpWhitelist() && ! $this->clientIpIsWhitelisted() && $this->allowWhitelistedIpsOnly());
+    }
+
+    /**
      * Check if StageFront requires the user to log in.
      *
      * @return bool
      */
     public function requiresLogin()
+    {
+        return $this->isActive()
+            && ( ! $this->hasIpWhitelist()
+                || ($this->clientIpIsWhitelisted() && $this->whitelistRequiresLogin())
+                || ( ! $this->clientIpIsWhitelisted() && ! $this->allowWhitelistedIpsOnly())
+            );
+    }
+
+    /**
+     * Check if StageFront is active.
+     * Once a user logs in, the shield is considered inactive.
+     *
+     * @return bool
+     */
+    protected function isActive()
     {
         $enabled = Config::get('stagefront.enabled', false);
         $unlocked = Session::get('stagefront.unlocked', false);
@@ -40,5 +67,59 @@ class Shield
         }
 
         return false;
+    }
+
+    /**
+     * Check if the client IP is whitelisted.
+     *
+     * @return bool
+     */
+    protected function clientIpIsWhitelisted()
+    {
+        $clientIp = Request::ip();
+        $whitelist = explode(',', $this->getIpWhitelist());
+        $ips = array_map('trim', $whitelist);
+
+        return in_array($clientIp, $ips);
+    }
+
+    /**
+     * Check if a IP whitelist is configured.
+     *
+     * @return bool
+     */
+    protected function hasIpWhitelist()
+    {
+        return ! empty(trim($this->getIpWhitelist()));
+    }
+
+    /**
+     * Get the IP whitelist from the config file.
+     *
+     * @return string
+     */
+    protected function getIpWhitelist()
+    {
+        return Config::get('stagefront.ip_whitelist', '');
+    }
+
+    /**
+     * Get the option to grant access to whitelisted IP's only.
+     *
+     * @return bool
+     */
+    protected function allowWhitelistedIpsOnly()
+    {
+        return Config::get('stagefront.ip_whitelist_only', false);
+    }
+
+    /**
+     * Get the option to require users with whitelisted IP's to login.
+     *
+     * @return bool
+     */
+    public function whitelistRequiresLogin()
+    {
+        return Config::get('stagefront.ip_whitelist_require_login', false);
     }
 }

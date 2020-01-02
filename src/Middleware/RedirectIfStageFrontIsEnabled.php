@@ -37,6 +37,10 @@ class RedirectIfStageFrontIsEnabled
     {
         $stageFrontUrl = Config::get('stagefront.url');
 
+        if ($this->shield->shouldDenyAccess()) {
+            return abort(403);
+        }
+
         if ($this->shield->requiresLogin()) {
             return redirect($stageFrontUrl);
         }

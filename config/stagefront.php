@@ -78,6 +78,32 @@ return [
     'database_password_field' => env('STAGEFRONT_DATABASE_PASSWORD_FIELD', 'password'),
 
     /**
+     * Allow access from whitelisted IP's.
+     * Enter a string of comma separated IP's or null to allow all IP's.
+     * For example: '1.2.3.4,1.2.3.4'
+     * If empty, all IP's are allowed.
+     *
+     * Default: ''
+     */
+    'ip_whitelist' => env('STAGEFRONT_IP_WHITELIST', ''),
+
+    /**
+     * Should only whitelisted IP's get access?
+     * If set to false, non whitelisted IP's will be presented with the login form.
+     * If set to true, non whitelisted IP's will get a 403 Forbidden error.
+     *
+     * Default: false
+     */
+    'ip_whitelist_only' => env('STAGEFRONT_IP_WHITELIST_ONLY', false),
+
+    /**
+     * Require users with whitelisted IP's to also login.
+     *
+     * Default: false
+     */
+    'ip_whitelist_require_login' => env('STAGEFRONT_IP_WHITELIST_REQUIRE_LOGIN', false),
+
+    /**
      * The URL to use for the StageFront login route.
      * This URL will be used for a GET and POST request.
      *

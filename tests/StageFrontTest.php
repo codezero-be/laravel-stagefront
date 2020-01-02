@@ -251,6 +251,77 @@ class StageFrontTest extends TestCase
     }
 
     /** @test */
+    public function it_allows_access_to_whitelisted_ips_only()
+    {
+        $this->url = Config::get('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
+        $this->enableStageFront();
+        $this->setIntendedUrl('/page');
+
+        Config::set('stagefront.ip_whitelist', ' 0.0.0.0 , 1.1.1.1 ');
+        Config::set('stagefront.ip_whitelist_only', true);
+        Config::set('stagefront.ip_whitelist_require_login', false);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.2.3.4'])
+            ->assertStatus(403);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.1.1.1'])
+            ->assertOk();
+    }
+
+    /** @test */
+    public function it_allows_access_to_whitelisted_ips_only_with_required_login()
+    {
+        $this->url = Config::get('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
+        $this->enableStageFront();
+        $this->setIntendedUrl('/page');
+
+        Config::set('stagefront.login', 'tester');
+        Config::set('stagefront.password', 'p4ssw0rd');
+        Config::set('stagefront.ip_whitelist', ' 0.0.0.0 , 1.1.1.1 ');
+        Config::set('stagefront.ip_whitelist_only', true);
+        Config::set('stagefront.ip_whitelist_require_login', true);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.2.3.4'])
+            ->assertStatus(403);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.1.1.1'])
+            ->assertRedirect($this->url);
+
+        $response = $this->submitForm([
+            'login' => 'tester',
+            'password' => 'p4ssw0rd',
+        ], ['REMOTE_ADDR' => '1.1.1.1']);
+
+        $response->assertRedirect('/page');
+    }
+
+    /** @test */
+    public function it_allows_instant_access_to_whitelisted_ips_and_password_access_to_other_ips()
+    {
+        $this->url = Config::get('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
+        $this->enableStageFront();
+        $this->setIntendedUrl('/page');
+
+        Config::set('stagefront.login', 'tester');
+        Config::set('stagefront.password', 'p4ssw0rd');
+        Config::set('stagefront.ip_whitelist', ' 0.0.0.0 , 1.1.1.1 ');
+        Config::set('stagefront.ip_whitelist_only', false);
+        Config::set('stagefront.ip_whitelist_require_login', false);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.2.3.4'])
+            ->assertRedirect($this->url);
+
+        $this->get('/page', ['REMOTE_ADDR' => '1.1.1.1'])
+            ->assertOk();
+    }
+
+    /** @test */
     public function urls_can_be_ignored_so_access_is_not_denied_by_stagefront()
     {
         $this->url = Config::get('stagefront.url');
@@ -265,6 +336,26 @@ class StageFrontTest extends TestCase
 
         $this->get('/public')->assertRedirect($this->url);
         $this->get('/public/route')->assertStatus(200)->assertSee('Route');
+    }
+
+    /** @test */
+    public function ignored_urls_can_be_accessed_by_non_whitelisted_ips()
+    {
+        $this->url = Config::get('stagefront.url');
+        $this->registerRoute('/page', 'Some Page');
+
+        $this->registerRoute('/public', 'Public');
+        $this->registerRoute('/public/route', 'Route');
+
+        Config::set('stagefront.ignore_urls', ['/public/*']);
+        Config::set('stagefront.ip_whitelist', '0.0.0.0');
+        Config::set('stagefront.ip_whitelist_only', true);
+        Config::set('stagefront.ip_whitelist_require_login', false);
+
+        $this->enableStageFront();
+
+        $this->get('/public', ['REMOTE_ADDR' => '1.2.3.4'])->assertStatus(403);
+        $this->get('/public/route', ['REMOTE_ADDR' => '1.2.3.4'])->assertStatus(200)->assertSee('Route');
     }
 
     /** @test */
@@ -334,16 +425,16 @@ class StageFrontTest extends TestCase
      *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
-    protected function submitForm(array $credentials)
+    protected function submitForm(array $credentials, $headers = [])
     {
-        $response = $this->post($this->url, $credentials, [
+        $headers += [
             // Since we're calling routes directly,
             // we need to fake the referring page
             // so that redirect()->back() will work.
-            'HTTP_REFERER' => $this->url
-        ]);
+            'HTTP_REFERER' => $this->url,
+        ];
 
-        return $response;
+        return $this->post($this->url, $credentials, $headers);
     }
 
     /**
