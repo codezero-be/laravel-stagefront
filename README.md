@@ -61,7 +61,7 @@ Now you just need to set some `.env` variables and you are up and running!
 
 ## ⌨️ Quick Setup
 
-Set some options in your `.env` file or publish the [configuration file](#publish-configuration-file).
+Set some options in your `.env` file or publish the [configuration file](#-publish-configuration-file).
 
 See an [example .env file](https://github.com/codezero-be/laravel-stagefront/blob/master/.env.example).
 
@@ -149,7 +149,7 @@ You can change the URL by setting this option:
 
 It runs under the `web` middleware since it uses the session to keep you logged in. 
 
-You can change the middleware if needed in the [configuration file](#publish-configuration-file).
+You can change the middleware if needed in the [configuration file](#-publish-configuration-file).
 
 #### ☑️ Throttle Login Attempts
 
@@ -177,13 +177,13 @@ If you want to include a different partial for other throttled pages, you can ch
 @endif
 ```
 
-Text in this view can be changed via the [translation files](#translations-and-views).
+Text in this view can be changed via the [translation files](#-translations-and-views).
 
 ![Throttle Screen](screenshots/screenshot-throttled.png)
 
 #### ☑️ Ignore URLs
 
-If for any reason you wish to disable StageFront on specific routes, you can add these to the `ignore_urls` array in the [configuration file](#publish-configuration-file). You can use wildcards if needed. You can't set this in the `.env` file.
+If for any reason you wish to disable StageFront on specific routes, you can add these to the `ignore_urls` array in the [configuration file](#-publish-configuration-file). You can use wildcards if needed. You can't set this in the `.env` file.
 
 For example:
 
@@ -242,7 +242,7 @@ php artisan vendor:publish --provider="CodeZero\StageFront\StageFrontServiceProv
 
 ## 📏 Laravel Debugbar
 
-Laravel Debugbar will be disabled on the StageFront routes automatically if you use it in your project. This will hide any potential sensitive data from the public, if by accident Debugbar is running on your staging site. You can disable this feature by editing the `middleware` option in the [configuration file](#publish-configuration-file).
+Laravel Debugbar will be disabled on the StageFront routes automatically if you use it in your project. This will hide any potential sensitive data from the public, if by accident Debugbar is running on your staging site. You can disable this feature by editing the `middleware` option in the [configuration file](#-publish-configuration-file).
 
 ## 🚧 Testing
 
