@@ -20,7 +20,7 @@ By installing StageFront with composer, adding the middleware and setting 3 vari
 
 ## ✅ Requirements
 
--   PHP >= 7.1
+-   PHP >= 7.1 | 8.0
 -   [Laravel](https://laravel.com/) >= 5.7
 
 ## 📦 Installation
