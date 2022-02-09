@@ -1,6 +1,6 @@
 # Laravel StageFront
 
-[![GitHub release](https://img.shields.io/github/release/codezero-be/laravel-stagefront.svg?style=flat-square)](CHANGELOG.md)
+[![GitHub release](https://img.shields.io/github/release/codezero-be/laravel-stagefront.svg?style=flat-square)](https://github.com/codezero-be/laravel-stagefront/releases)
 [![Laravel](https://img.shields.io/badge/laravel-8-red?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
 [![License](https://img.shields.io/packagist/l/codezero/laravel-stagefront.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/scrutinizer/build/g/codezero-be/laravel-stagefront/master?style=flat-square)](https://scrutinizer-ci.com/g/codezero-be/laravel-stagefront/build-status/master)
@@ -262,7 +262,8 @@ If you discover any security related issues, please [e-mail me](mailto:ivan@code
 
 ## 📑 Changelog
 
-See a list of important changes in the [changelog](CHANGELOG.md).
+A complete list of all notable changes to this package can be found on the
+[releases page](https://github.com/codezero-be/laravel-stagefront/releases).
 
 ## 📜 License
 
