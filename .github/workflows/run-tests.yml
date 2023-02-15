@@ -62,6 +62,9 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: xdebug
+        
+      - name: Allow kylekatarnls/update-helper plugin to run
+        run: composer config --no-plugins allow-plugins.kylekatarnls/update-helper true
 
       - name: Install dependencies
         run: composer update --with="illuminate/support:${{ matrix.laravel }}" --with="orchestra/testbench:${{ matrix.testbench }}" --prefer-dist --no-interaction --no-progress
