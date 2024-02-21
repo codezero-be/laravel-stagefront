@@ -98,7 +98,7 @@ class StageFrontServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__."/../resources/lang" =>  $this->app->langPath("vendor/{$this->name"),
+            __DIR__."/../resources/lang" =>  $this->app->langPath("vendor/{$this->name}"),
         ], 'lang');
     }
 
