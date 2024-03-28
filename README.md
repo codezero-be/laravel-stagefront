@@ -214,6 +214,18 @@ For example:
 ],
 ```
 
+#### ☑️ Ignore Domains
+
+If for any reason you wish to disable StageFront on specific doamins, you can add these to the `ignore_udomains` array in the [configuration file](#-publish-configuration-file). You can't set this in the `.env` file.
+
+For example:
+
+```php
+'ignore_domains' => [
+    'admin.domain.com',
+],
+```
+
 #### ☑️ Link Live Site
 
 If you set the URL to your live site, a link will be shown underneath the login form.
