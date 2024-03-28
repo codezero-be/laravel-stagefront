@@ -514,7 +514,7 @@ class StageFrontTest extends TestCase
      */
     protected function registerRouteWithDomain($url, $text)
     {
-        Route::domain('domain.example.com')->group(function () {
+        Route::domain('domain.example.com')->group(function () use ($url) {
             Route::get($url, function () use ($text) {
                 return $text;
             })->middleware(Config::get('stagefront.middleware'));
