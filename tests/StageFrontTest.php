@@ -359,6 +359,20 @@ class StageFrontTest extends TestCase
     }
 
     /** @test */
+    public function domains_can_be_ignored_so_access_is_not_denied_by_stagefront()
+    {
+        $this->url = Config::get('stagefront.url');
+
+        $this->registerRouteWithDomain('/admin', 'Admin');
+
+        Config::set('stagefront.ignore_domains', ['domain.example.com']);
+
+        $this->enableStageFront();
+
+        $this->call('GET', 'http://domain.example.com/admin')->assertStatus(200)->assertSee('Admin');
+    }
+
+    /** @test */
     public function ignored_urls_can_be_accessed_by_non_whitelisted_ips()
     {
         $this->url = Config::get('stagefront.url');
@@ -485,5 +499,20 @@ class StageFrontTest extends TestCase
         Route::get($url, function () use ($text) {
             return $text;
         })->middleware(Config::get('stagefront.middleware'));
+    }
+
+    /**
+     * Register a test route.
+     *
+     * @param string $url
+     * @param string $text
+     */
+    protected function registerRouteWithDomain($url, $text)
+    {
+        Route::domain('domain.example.com')->group(function () use ($url, $text) {
+            Route::get($url, function () use ($text) {
+                return $text;
+            })->middleware(Config::get('stagefront.middleware'));
+        });
     }
 }

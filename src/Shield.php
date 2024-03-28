@@ -55,6 +55,7 @@ class Shield
      */
     protected function currentUrlIsIgnored()
     {
+        $ignoredDomains = Config::get('stagefront.ignore_domains', []);
         $ignoredUrls = Config::get('stagefront.ignore_urls', []);
         $ignoredUrls[] = Config::get('stagefront.url');
 
@@ -62,6 +63,14 @@ class Shield
             $url = trim($url, '/');
 
             if (Request::is($url)) {
+                return true;
+            }
+        }
+
+        foreach ($ignoredDomains as $url) {
+            $url = trim($url, '/');
+
+            if (str_contains(Request::url(), $url)) {
                 return true;
             }
         }
