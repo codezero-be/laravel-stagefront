@@ -361,8 +361,6 @@ class StageFrontTest extends TestCase
     /** @test */
     public function domains_can_be_ignored_so_access_is_not_denied_by_stagefront()
     {
-        Config::set('app.url', 'http://domain.example.com');
-        
         $this->url = Config::get('stagefront.url');
 
         $this->registerRouteWithDomain('/admin', 'Admin');
@@ -371,7 +369,7 @@ class StageFrontTest extends TestCase
 
         $this->enableStageFront();
 
-        $this->get('/admin')->assertStatus(200)->assertSee('Admin');
+        $this->call('GET', 'http://domain.example.com/admin')->assertStatus(200)->assertSee('Admin');
     }
 
     /** @test */
