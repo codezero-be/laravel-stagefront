@@ -157,4 +157,14 @@ return [
      */
     'ignore_urls' => [],
 
+    
+    /**
+     * The following domains will be ignored by StageFront.
+     * Access to these domains will never be blocked.
+     * Default: []
+     * Example: 'admin.domain.com'
+     */
+    'ignore_domains' => [
+    ],
+
 ];
