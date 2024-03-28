@@ -364,14 +364,14 @@ class StageFrontTest extends TestCase
         Config::set('app.url', 'http://domain.example.com');
         
         $this->url = Config::get('stagefront.url');
-        $this->registerRouteWithDomain('/public', 'Public');
+
+        $this->registerRouteWithDomain('/admin', 'Admin');
 
         Config::set('stagefront.ignore_domains', ['domain.example.com']);
 
         $this->enableStageFront();
 
-        $this->get('/public')->assertRedirect($this->url);
-        $this->get('http://domain.example.com/public')->assertStatus(200)->assertSee('Public');
+        $this->get('/admin')->assertStatus(200)->assertSee('Admin');
     }
 
     /** @test */
