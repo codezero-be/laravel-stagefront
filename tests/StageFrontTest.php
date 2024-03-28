@@ -361,20 +361,17 @@ class StageFrontTest extends TestCase
     /** @test */
     public function domains_can_be_ignored_so_access_is_not_denied_by_stagefront()
     {
-        Config::set('app.url', ['http://domain.example.com']);
+        Config::set('app.url', 'http://domain.example.com');
         
         $this->url = Config::get('stagefront.url');
-        $this->registerRouteWithDomain('/page', 'Some Page');
-
         $this->registerRouteWithDomain('/public', 'Public');
-        $this->registerRouteWithDomain('/public/route', 'Route');
 
         Config::set('stagefront.ignore_domains', ['domain.example.com']);
 
         $this->enableStageFront();
 
         $this->get('/public')->assertRedirect($this->url);
-        $this->get('/public/route')->assertStatus(200)->assertSee('Route');
+        $this->get('http://domain.example.com/public')->assertStatus(200)->assertSee('Public');
     }
 
     /** @test */
